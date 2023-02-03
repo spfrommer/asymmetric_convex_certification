@@ -1,0 +1,5 @@
+.*
+*.pyc
+*.pyo
+!/.gitignore
+denoised-smoothing/

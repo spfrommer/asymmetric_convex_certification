@@ -1,0 +1,24 @@
+# Example for using customized model and data loader.
+# Model and data loader defined in custom_model_data.py
+# python abcrown.py --config exp_configs/custom_model_data_example.yaml
+general:
+  sparse_alpha: true
+model:
+  name: Customized("convexrobust.model.insts.abcrown", "construct_malimg")
+  #path: ../../../out/mnist_38-standard/model/abcrown/checkpoints/model.ckpt
+  path: out/malimg-standard/model/abcrown/checkpoints/model.ckpt
+data:
+  dataset: Customized("convexrobust.model.insts.abcrown", "abcrown_malimg_dataset")
+  mean: 0.0
+  std: 1.0
+  num_outputs: 2  # Number of classes for classification problem.
+specification:
+   epsilon: 0.00784313725  # 2./255.
+attack:
+  pgd_restarts: 100
+solver:
+  batch_size: 2048
+  beta-crown:
+    iteration: 20
+bab:
+  timeout: 30

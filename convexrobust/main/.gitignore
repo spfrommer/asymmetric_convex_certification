@@ -1,0 +1,5 @@
+figs*
+res/
+runs/
+logs/
+logs_bk/

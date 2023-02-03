@@ -1,0 +1,6 @@
+build/
+logs/
+dist/
+data/
+result/
+*.egg-info
