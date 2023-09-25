@@ -12,7 +12,6 @@ import torchvision
 from convexrobust.utils import torch_utils as TU
 from convexrobust.model.certificate import Certificate
 
-from lib.trades import trades_loss
 import lib.smoothingSplittingNoise.src.attacks as rs_attacks
 
 from abc import abstractmethod
@@ -32,7 +31,6 @@ class BaseCertifiable(pl.LightningModule):
     def __init__(
             self, loss, adv_norm: Optional[Union[int, str]]=None,
             adv_eps: Optional[Union[float, list[float]]]=None, stability=False,
-            trades_norm: Optional[str]=None, trades_beta: Optional[float]=None
         ):
         """
         Args:
@@ -45,7 +43,7 @@ class BaseCertifiable(pl.LightningModule):
         """
         super().__init__()
 
-        assert [stability, (trades_norm is not None), (adv_norm is not None)].count(True) <= 1
+        assert [stability, (adv_norm is not None)].count(True) <= 1
 
         self.loss = loss
         self.adv_norm = adv_norm
@@ -59,8 +57,6 @@ class BaseCertifiable(pl.LightningModule):
         self.external_certification = False
 
         self.stability = stability
-        self.trades_norm = trades_norm
-        self.trades_beta = trades_beta
 
 
     def class_balance_prediction_shift(self) -> Tensor:
@@ -212,19 +208,7 @@ class BaseCertifiable(pl.LightningModule):
         vars['target'] = target
         vars['pred'] = pred.detach()
 
-        if self.trades_norm is None:
-            classification_loss = self.loss(pred, target)
-        else:
-            was_training = self.training
-            with torch.enable_grad():
-                classification_loss = trades_loss(model=self, x_natural=signal, y=target,
-                    optimizer=self.optimizers(), beta=self.trades_beta,
-                    distance=self.trades_norm
-                )
-            if not was_training:
-                classification_loss = classification_loss.detach()
-                self.eval()
-
+        classification_loss = self.loss(pred, target)
         extra_loss = self.extra_loss(signal, target)
 
         vars['class_loss'] = classification_loss.detach()

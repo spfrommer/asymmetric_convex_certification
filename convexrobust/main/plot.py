@@ -85,8 +85,6 @@ line_colors = ['#88CCEE', '#CC6677', '#DDCC77', '#117733',
                '#882255', '#661100', '#6699CC', '#888888']
 
 def certified_radius_plot(results: ResultDict, global_params, norm=Norm.L2, empirical=False):
-    # results = {k:v for (k,v) in results.items() if ('trades' in k or 'smooth' in k)}
-
     fig = plt.figure(dpi=72, figsize=(8, 6))
     ax = plt.gca()
 
