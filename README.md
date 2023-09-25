@@ -1,6 +1,11 @@
 ## Install
 This code was developed for Python 3.7.5 and is easiest to reproduce using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/). After setting up the virtual environment, simply run `bash setup.sh`.
 
+For the linfinity distance nets:
+- python setup.py install --user
+- pip install -e .
+- make sure CUDA_HOME is set to your cuda install
+
 Reproducing the convex combination experiments in Appendix C requires a working MOSEK install and license as documented [here](https://docs.mosek.com/latest/install/installation.html) -- this license is freely available for academic researchers.
 
 ## Key implementations

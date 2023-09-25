@@ -53,7 +53,7 @@ class BaseCertifiable(pl.LightningModule):
         # Child classes must incorporate class_balance in their forward and certify methods
         self.class_balance = nn.Parameter(torch.tensor(0.0), requires_grad=False)
 
-        # Some methods need to be certified externally via command line
+        # Some methods need to be certified externally via command line (abCROWN)
         self.external_certification = False
 
         self.stability = stability
@@ -233,10 +233,11 @@ class BaseCertifiable(pl.LightningModule):
         pred = self._collect_outputs('pred', outputs)
         target = self._collect_outputs('target', outputs)
 
+        kwargs = {'task': 'multiclass', 'num_classes': 2}
         accs = {
-            'acc_composite': torchmetrics.functional.accuracy(pred, target),
-            'acc_0': torchmetrics.functional.accuracy(pred, target, ignore_index=1),
-            'acc_1': torchmetrics.functional.accuracy(pred, target, ignore_index=0)
+            'acc_composite': torchmetrics.functional.accuracy(pred, target, **kwargs),
+            'acc_0': torchmetrics.functional.accuracy(pred, target, ignore_index=1, **kwargs),
+            'acc_1': torchmetrics.functional.accuracy(pred, target, ignore_index=0, **kwargs)
         }
         self._add_scalars_single(f'acc_{stage}', accs)
         self.logger.experiment.flush()

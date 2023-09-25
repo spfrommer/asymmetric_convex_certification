@@ -3,8 +3,15 @@ from __future__ import annotations
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # Surpress tensorflow cuda errors
 
-import random
 import warnings
+# Surpress lightning-bolt warnings https://github.com/Lightning-Universe/lightning-bolts/issues/563
+warnings.simplefilter('ignore')
+original_filterwarnings = warnings.filterwarnings
+def _filterwarnings(*args, **kwargs):
+    return original_filterwarnings(*args, **{**kwargs, 'append':True})
+warnings.filterwarnings = _filterwarnings
+
+import random
 import collections
 import click
 import numpy as np
@@ -99,12 +106,12 @@ def get_blueprints(datamodule: LightningDataModule, experiment: str) -> Blueprin
             **randsmooth_blueprints(RandsmoothMnist, 60, 0.75, datamodule.in_n),
             # Commented out by default since install is tricky -- see lib/linf_dist
             # for install instructions and uncomment to run this baseline
-            # 'linf': ModelBlueprint(LInfCertifiable(
-                # 'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
-                # dirs.pretrain_path('mnist_38', 'model.pth'),
-                # [1, 28, 28],
-                # **data_args
-            # ), 0, False),
+            'linf': ModelBlueprint(LInfCertifiable(
+                'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
+                dirs.pretrain_path('mnist_38', 'model.pth'),
+                [1, 28, 28],
+                **data_args
+            ), 0, False),
         }
     elif datamodule.name == 'fashion_mnist_shirts':
         return {
@@ -255,7 +262,6 @@ def init(seed):
     torch.manual_seed(seed)
     random.seed(seed)
     pretty.init()
-    warnings.filterwarnings('ignore')
 
 
 if __name__ == "__main__":

@@ -23,6 +23,7 @@ std = {
     'CIFAR10': 0.2009, #np.array([0.2023, 0.1994, 0.2010])
     'TinyImageNet': 0.2276,#[0.2302, 0.2265, 0.2262]
     'cifar10_catsdogs': np.mean(convexrobust_datamodules._CIFAR10_CATSDOGS_STDDEV),
+    'mnist_38': np.mean(convexrobust_datamodules._MNIST_38_STDDEV),
     'fashion_mnist_shirts': np.mean(convexrobust_datamodules._FASHION_MNIST_SHIRTS_STDDEV)
 }
 train_transforms = {
