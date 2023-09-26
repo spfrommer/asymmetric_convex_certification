@@ -22,7 +22,7 @@ import torch
 from pytorch_lightning import LightningDataModule
 
 from convexrobust.data import datamodules
-# from convexrobust.model.linf_certifiable import LInfCertifiable
+from convexrobust.model.linf_certifiable import LInfCertifiable
 from convexrobust.model.randsmooth_certifiable import RandsmoothCertifiable
 from convexrobust.model.insts.convex import (
     ConvexCifar, ConvexMnist, ConvexFashionMnist, ConvexMalimg, ConvexSimple

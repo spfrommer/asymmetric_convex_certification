@@ -3,6 +3,7 @@ import os
 import torch
 from torch import Tensor
 from pytorch_lightning import LightningDataModule
+import time
 
 import warnings
 with warnings.catch_warnings():
@@ -27,6 +28,7 @@ class Result:
     pred: Tensor
     certificate: Optional[Certificate]  # Only if target is class 0
     empirical_certificate: Optional[Certificate]
+    debug_vars: Dict
 
 @dataclass
 class EvaluateConfig:
@@ -57,12 +59,15 @@ def evaluate_models(
     signals, targets = [], []
     for (signal, target) in datamodule.eval_iterator(do_tqdm=True):
         for (name, model) in models_to_eval.items():
+            t0 = time.time()
             if target == TU.CERT_CLASS and not model.external_certification:
                 pred, certificate = model.certify(signal, target)
+                debug_vars = { 'cert_time': time.time() - t0 }
                 if pred != target:
                     certificate = certificate.zero()
             else:
                 pred, certificate = model.predict(signal), None
+                debug_vars = { 'pred_time': time.time() - t0 }
 
             assert pred.shape == torch.Size([1])
 
@@ -73,7 +78,7 @@ def evaluate_models(
             if config.empirical_cert:
                 emp_certificate = empirical_certificate(model, signal, target)
 
-            results[name].append(Result(target, pred, certificate, emp_certificate))
+            results[name].append(Result(target, pred, certificate, emp_certificate, debug_vars))
 
         signals.append(signal)
         targets.append(target)
