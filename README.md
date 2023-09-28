@@ -15,7 +15,7 @@ The base class for all convexly certified methods lies in `convexrobust/model/co
 All datasets are downloaded automatically upon running.
 
 ## Execution
-To reproduce the main experiments of the paper, change to the `convexrobust/main` directory and run `python main.py --data=mnist_38 --train`, where the `data` option is one of `mnist_38`, `fashion_mnist_shirts`, `malimg`, or `cifar10_catsdogs`. Output figures can then be produced with `python plot.py --data=mnist_38` and should lie in `convexrobust/main/figs/`.
+To reproduce the main experiments of the paper, change to the `convexrobust/main` directory and run `python main.py --data=mnist_38 --train`, where the `data` option is one of `mnist_38`, `fashion_mnist_shirts`, `malimg`, or `cifar10_catsdogs`. The figure papers can then be produced with `python plot.py --data=mnist_38 --labels=mnist_38_paper` (change accordingly) and should lie in `convexrobust/main/figs/`.
 
 To reproduce the convex combination experiments, enter the `scripts/misc` directory and execute `reconstruction_main.py` and `reconstruction_plot.py`. The same directory also contains the malimg multiclass experiments and the mnist sweep experiments from the Appendix.
 
@@ -25,13 +25,16 @@ For convenience, `scripts/misc/simple_example.py` contains a minimal script to t
 After running the above, we can execute the abCROWN verifier for the abCROWN baseline, which runs separately. First, install as follows:
 
 ```
-conda env create -f complete_verifier/environment.yml --name alpha-beta-crown
-conda activate alpha-beta-crown`
-```
-
-Then go into lib/alpha-beta-CROWN and run
-```
+cd lib/alpha-beta-CROWN
+conda env create -f complete_verifier/environment.yml --name alpha-beta-crown2
+conda activate alpha-beta-crown2
 conda develop .
+cd ../..
+bash setup_abcrown.sh
 ```
+Note that we need to run a different install script to be compatible with the alpha-beta-CROWN package versions.
+
+conda deactivate
+conda remove -n alpha-beta-crown2 --all
 
 After the abCROWN install has finished, simply run `bash scripts/abcrown/xxx.sh` from the root directory. The certified will be populated automatically into the apropriate results file. Replotting should then show the abCROWN certified accuracy curve.
