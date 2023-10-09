@@ -130,6 +130,8 @@ def certified_radius_plot(results: ResultDict, global_params, norm=Norm.L2):
     plot_names = accs.keys() if global_params.original_name else labels.keys()
 
     for name, color in zip(plot_names, line_colors):
+        if name not in results.keys():
+            continue
         clean = get_clean_accuracy(results, name)
         label_name = name if global_params.original_name else labels[name]
         label = f'{label_name} [{clean * 100 : .1f}% clean]'

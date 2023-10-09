@@ -1,6 +1,8 @@
 experiment=mnist_38
 mkdir out/${experiment}-standard/abcrown_results
 rm -rf out/${experiment}-standard/abcrown_results/*
+mkdir out/${experiment}-standard/abcrown_times
+rm -rf out/${experiment}-standard/abcrown_times/*
 
 start=`date +%s.%N`
 
@@ -12,7 +14,7 @@ done
 
 end=`date +%s.%N`
 runtime=$( echo "$end - $start" | bc -l )
-echo $runtime >> out/${experiment}-standard/abcrown_results/time_l1.txt
+echo $runtime >> out/${experiment}-standard/abcrown_times/time_l1.txt
 start=`date +%s.%N`
 
 norm=2
@@ -23,7 +25,7 @@ done
 
 end=`date +%s.%N`
 runtime=$( echo "$end - $start" | bc -l )
-echo $runtime >> out/${experiment}-standard/abcrown_results/time_l2.txt
+echo $runtime >> out/${experiment}-standard/abcrown_times/time_l2.txt
 start=`date +%s.%N`
 
 norm=inf
@@ -34,6 +36,6 @@ done
 
 end=`date +%s.%N`
 runtime=$( echo "$end - $start" | bc -l )
-echo $runtime >> out/${experiment}-standard/abcrown_results/time_linf.txt
+echo $runtime >> out/${experiment}-standard/abcrown_times/time_linf.txt
 
 python scripts/abcrown/abcrown_combine.py --data=mnist_38

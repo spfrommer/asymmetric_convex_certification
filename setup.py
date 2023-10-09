@@ -36,4 +36,5 @@ setup(
         'mosek',
         'pytest',
         'dacite',
+        'tabulate',
     ])

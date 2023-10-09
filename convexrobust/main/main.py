@@ -99,10 +99,10 @@ def get_blueprints(datamodule: LightningDataModule, experiment: str) -> Blueprin
 
     if datamodule.name == 'mnist_38':
         return {
-            'convex_noreg': ModelBlueprint(ConvexMnist(), 60, False),
-            'convex_reg': ModelBlueprint(ConvexMnist(reg=0.01), 60, False),
-            'cayley': ModelBlueprint(CayleyMnist(**data_args), 60, False),
-            'abcrown': ModelBlueprint(ABCROWNMnist(), 60, False),
+            'convex_noreg': ModelBlueprint(ConvexMnist(), 60),
+            'convex_reg': ModelBlueprint(ConvexMnist(reg=0.01), 60),
+            'cayley': ModelBlueprint(CayleyMnist(**data_args), 60),
+            'abcrown': ModelBlueprint(ABCROWNMnist(), 60),
             **randsmooth_blueprints(RandsmoothMnist, 60, 0.75, datamodule.in_n),
             # Commented out by default since install is tricky -- see lib/linf_dist
             # for install instructions and uncomment to run this baseline
@@ -115,37 +115,37 @@ def get_blueprints(datamodule: LightningDataModule, experiment: str) -> Blueprin
         }
     elif datamodule.name == 'fashion_mnist_shirts':
         return {
-            'convex_noreg': ModelBlueprint(ConvexFashionMnist(), 60, True),
-            'convex_reg': ModelBlueprint(ConvexFashionMnist(reg=0.01), 60, True),
-            'cayley': ModelBlueprint(CayleyFashionMnist(**data_args), 60, True),
-            'abcrown': ModelBlueprint(ABCROWNFashionMnist(), 60, True),
-            **randsmooth_blueprints(RandsmoothFashionMnist, 60, 0.75, datamodule.in_n, True),
-            # 'linf': ModelBlueprint(LInfCertifiable(
-                # 'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
-                # dirs.pretrain_path('fashion_mnist_shirts', 'model.pth'),
-                # [1, 28, 28],
-                # **data_args
-            # ), 0, False),
+            'convex_noreg': ModelBlueprint(ConvexFashionMnist(), 60),
+            'convex_reg': ModelBlueprint(ConvexFashionMnist(reg=0.01), 60),
+            'cayley': ModelBlueprint(CayleyFashionMnist(**data_args), 60),
+            'abcrown': ModelBlueprint(ABCROWNFashionMnist(), 60),
+            **randsmooth_blueprints(RandsmoothFashionMnist, 60, 0.75, datamodule.in_n),
+            'linf': ModelBlueprint(LInfCertifiable(
+                'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
+                dirs.pretrain_path('fashion_mnist_shirts', 'model.pth'),
+                [1, 28, 28],
+                **data_args
+            ), 0, False),
         }
     elif datamodule.name == 'malimg':
         return {
-            'convex_noreg': ModelBlueprint(ConvexMalimg(reg=0.0), 150, True, True),
+            'convex_noreg': ModelBlueprint(ConvexMalimg(reg=0.0), 150),
             'convex_reg': ModelBlueprint(ConvexMalimg(reg=0.075), 150),
-            'abcrown': ModelBlueprint(ABCROWNMalimg(), 150, True, True),
+            'abcrown': ModelBlueprint(ABCROWNMalimg(), 150),
             **randsmooth_blueprints(
                 RandsmoothMalimg, 150, 3.5, datamodule.in_n, nb=32,
-                large_splitderandomized_sigma=100, load=True
+                large_splitderandomized_sigma=100
                 # large_splitderandomized_sigma=None, load=True
             ),
         }
     elif datamodule.name in ['cifar10_catsdogs', 'cifar10_dogscats']:
         if experiment == 'standard':
             return {
-                'convex_noreg': ModelBlueprint(ConvexCifar(), 150, True, True),
-                'convex_reg': ModelBlueprint(ConvexCifar(reg=0.0075), 150, True, False),
-                'cayley': ModelBlueprint(CayleyCifar(**data_args), 150, True, True),
-                'abcrown': ModelBlueprint(ABCROWNCifar(), 150, True, True),
-                **randsmooth_blueprints(RandsmoothCifar, 600, 0.75, datamodule.in_n, load=True),
+                'convex_noreg': ModelBlueprint(ConvexCifar(), 150),
+                'convex_reg': ModelBlueprint(ConvexCifar(reg=0.0075), 150),
+                'cayley': ModelBlueprint(CayleyCifar(**data_args), 150),
+                'abcrown': ModelBlueprint(ABCROWNCifar(), 150),
+                **randsmooth_blueprints(RandsmoothCifar, 600, 0.75, datamodule.in_n),
             }
         elif experiment == 'ablation':
             # Experiments for appendix G.2
@@ -165,14 +165,14 @@ def get_blueprints(datamodule: LightningDataModule, experiment: str) -> Blueprin
             # Experiments for appendix G.3
             return {
                 'convex_nofeaturemap': ModelBlueprint(
-                    ConvexCifar(apply_feature_map=False), 500, False
+                    ConvexCifar(apply_feature_map=False), 500
                 )
             }
         else:
             raise RuntimeError('Bad experiment type')
     elif datamodule.name == 'circles':
         return {
-            'convex_noreg': ModelBlueprint(ConvexSimple, 30, False, {})
+            'convex_noreg': ModelBlueprint(ConvexSimple(), 30)
         }
     else:
         raise RuntimeError('Bad dataset')
