@@ -4,7 +4,7 @@ This code accompanies our paper:
 
 **Asymmetric Certified Robustness via Feature-Convex Neural Networks**\
 Samuel Pfrommer\*, Brendon G. Anderson\*, Julien Piet, Somayeh Sojoudi\
-37th Conference on Neeural Information Processing Systems (NeurIPS 2023).
+37th Conference on Neural Information Processing Systems (NeurIPS 2023).
 
 ![plot](./readme_figs/architecture.png)
 
