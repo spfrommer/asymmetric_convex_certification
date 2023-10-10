@@ -22,7 +22,7 @@ import torch
 from pytorch_lightning import LightningDataModule
 
 from convexrobust.data import datamodules
-from convexrobust.model.linf_certifiable import LInfCertifiable
+# from convexrobust.model.linf_certifiable import LInfCertifiable
 from convexrobust.model.randsmooth_certifiable import RandsmoothCertifiable
 from convexrobust.model.insts.convex import (
     ConvexCifar, ConvexMnist, ConvexFashionMnist, ConvexMalimg, ConvexSimple
@@ -106,12 +106,12 @@ def get_blueprints(datamodule: LightningDataModule, experiment: str) -> Blueprin
             **randsmooth_blueprints(RandsmoothMnist, 60, 0.75, datamodule.in_n),
             # Commented out by default since install is tricky -- see lib/linf_dist
             # for install instructions and uncomment to run this baseline
-            'linf': ModelBlueprint(LInfCertifiable(
-                'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
-                dirs.pretrain_path('mnist_38', 'model.pth'),
-                [1, 28, 28],
-                **data_args
-            ), 0, False),
+            # 'linf': ModelBlueprint(LInfCertifiable(
+                # 'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
+                # dirs.pretrain_path('mnist_38', 'model.pth'),
+                # [1, 28, 28],
+                # **data_args
+            # ), 0, False),
         }
     elif datamodule.name == 'fashion_mnist_shirts':
         return {
@@ -120,12 +120,12 @@ def get_blueprints(datamodule: LightningDataModule, experiment: str) -> Blueprin
             'cayley': ModelBlueprint(CayleyFashionMnist(**data_args), 60),
             'abcrown': ModelBlueprint(ABCROWNFashionMnist(), 60),
             **randsmooth_blueprints(RandsmoothFashionMnist, 60, 0.75, datamodule.in_n),
-            'linf': ModelBlueprint(LInfCertifiable(
-                'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
-                dirs.pretrain_path('fashion_mnist_shirts', 'model.pth'),
-                [1, 28, 28],
-                **data_args
-            ), 0, False),
+            # 'linf': ModelBlueprint(LInfCertifiable(
+                # 'MLPModel(depth=5,width=5120,identity_val=10.0,scalar=True)',
+                # dirs.pretrain_path('fashion_mnist_shirts', 'model.pth'),
+                # [1, 28, 28],
+                # **data_args
+            # ), 0, False),
         }
     elif datamodule.name == 'malimg':
         return {

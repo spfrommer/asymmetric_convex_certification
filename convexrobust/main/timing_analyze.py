@@ -111,7 +111,7 @@ def all(ctx):
 
     headers = datas
 
-    rows = [[k] + [f'{v[data]:0.4g}' for data in datas] for (k, v) in cert_times_data.items()]
+    rows = [[k] + [f'{v[data]:0.3g}' for data in datas] for (k, v) in cert_times_data.items()]
 
     print(tabulate.tabulate(rows, headers=headers))
 
