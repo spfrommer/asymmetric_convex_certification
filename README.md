@@ -1,10 +1,5 @@
 ## Install
-This code was developed for Python 3.7.5 and is easiest to reproduce using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/). After setting up the virtual environment, simply run `bash setup.sh`.
-
-For the linfinity distance nets:
-- python setup.py install --user
-- pip install -e .
-- make sure CUDA_HOME is set to your cuda install
+This code was developed for Python 3.7.5 and is easiest to reproduce using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/). After creating the virtual environment, simply run `bash setup.sh`.
 
 Reproducing the convex combination experiments in Appendix C requires a working MOSEK install and license as documented [here](https://docs.mosek.com/latest/install/installation.html) -- this license is freely available for academic researchers.
 
@@ -21,20 +16,26 @@ To reproduce the convex combination experiments, enter the `scripts/misc` direct
 
 For convenience, `scripts/misc/simple_example.py` contains a minimal script to train and certify a convex network.
 
+### Running $\ell_{\infty}$-distance nets
+To compare against $\ell_{infty}$-distance nets, first activate your virtual environment. Then ensure that the `CUDA_HOME` environment variable is set to your cuda install, and run the following:
+```
+cd lib/linf_dist
+python setup.py install --user
+pip install -e .
+```
+Note that by default the $\ell_{\infty}$-distance net comparisons are commented out in `main.py`.
+
 ### Running abCROWN
 After running the above, we can execute the abCROWN verifier for the abCROWN baseline, which runs separately. First, install as follows:
 
 ```
 cd lib/alpha-beta-CROWN
-conda env create -f complete_verifier/environment.yml --name alpha-beta-crown2
-conda activate alpha-beta-crown2
+conda env create -f complete_verifier/environment.yml --name alpha-beta-crown
+conda activate alpha-beta-crown
 conda develop .
 cd ../..
 bash setup_abcrown.sh
 ```
-Note that we need to run a different install script to be compatible with the alpha-beta-CROWN package versions.
+Note that we need to run a different setup script to be compatible with the alpha-beta-CROWN package versions.
 
-conda deactivate
-conda remove -n alpha-beta-crown2 --all
-
-After the abCROWN install has finished, simply run `bash scripts/abcrown/xxx.sh` from the root directory. The certified will be populated automatically into the apropriate results file. Replotting should then show the abCROWN certified accuracy curve.
+After the abCROWN install has finished, simply run `bash scripts/abcrown/xxx.sh` from the root directory. The certified will be populated automatically into the appropriate results file. Replotting should then show the abCROWN certified accuracy curve.
