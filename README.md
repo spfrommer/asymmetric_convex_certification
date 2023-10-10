@@ -6,7 +6,7 @@ This code accompanies our paper:
 Samuel Pfrommer\*, Brendon G. Anderson\*, Julien Piet, Somayeh Sojoudi\
 37th Conference on Neural Information Processing Systems (NeurIPS 2023).
 
-![plot](./readme_figs/arch.png)
+![plot](./readme_figs/arch2.png)
 
 
 ## Installation
