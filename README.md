@@ -10,7 +10,7 @@ Samuel Pfrommer\*, Brendon G. Anderson\*, Julien Piet, Somayeh Sojoudi\
 
 
 ## Installation
-This code was developed for Python 3.7.5 and is easiest to reproduce using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/). After creating the virtual environment, simply run `bash setup.sh`.
+This code has been tested on Python 3.7.5 and Python 3.10.12. It is easiest to reproduce using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/). After creating the virtual environment, simply run `bash setup.sh`, which will install the required packages. In case of changes breaking backwards compatability, exact package versions that should work are recorded in `requirements_freeze.txt`.
 
 Reproducing the convex combination experiments in Appendix C requires a working MOSEK install and license as documented [here](https://docs.mosek.com/latest/install/installation.html) -- this license is freely available for academic researchers.
 
